@@ -675,7 +675,7 @@ DEFAULT_CONFIG: MarimoConfig = {
         "copilot": False,
     },
     "display": {
-        "theme": "light",
+        "theme": "system",
         "code_editor_font_size": 14,
         "cell_output": "below",
         "default_width": "medium",
