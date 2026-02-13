@@ -136,7 +136,7 @@ class RuntimeConfig(TypedDict):
     - `auto_instantiate`: if `False`, cells won't automatically
         run on startup. This only applies when editing a notebook,
         and not when running as an application.
-        The default is `True`.
+        The default is `False`.
     - `auto_reload`: if `lazy`, cells importing modified modules will marked
       as stale; if `autorun`, affected cells will be automatically run. similar
       to IPython's %autoreload extension but with more code intelligence.
