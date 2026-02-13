@@ -2178,6 +2178,7 @@ class Kernel:
 
         # Since markdown cell, render and broadcast output
         # Remove cell from outstanding requests
+        from marimo._messaging.notification import CellNotification
         from marimo._output.md import md
 
         # Remove markdown cells from uninstantiated requests
@@ -2185,7 +2186,15 @@ class Kernel:
             html_obj = md(content)
             mimetype, html_content = html_obj._mime_()
 
-            # Broadcast the markdown output
+            # Send "running" first so the frontend sets
+            # runStartTimestamp; without this, the subsequent "idle"
+            # transition won't populate runElapsedTimeMs and the
+            # frontend considers the cell "uninstantiated".
+            broadcast_notification(
+                CellNotification(cell_id=cell_id, status="running")
+            )
+
+            # Broadcast the markdown output and transition to idle
             CellNotificationUtils.broadcast_output(
                 channel=CellChannel.OUTPUT,
                 mimetype=mimetype,
