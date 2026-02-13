@@ -110,7 +110,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-marimo/_static/
+# marimo/_static/ — un-ignored so git-based installs include built frontend
 marimo/_lsp/
 
 .vscode

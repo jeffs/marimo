@@ -9,6 +9,11 @@ export const ThemeProvider: React.FC<PropsWithChildren> = memo(
   ({ children }) => {
     const { theme } = useTheme();
     useLayoutEffect(() => {
+      // Take over from the blocking script in index.html that set
+      // color-scheme and .dark on <html> to prevent flash-of-light-theme.
+      document.documentElement.style.colorScheme = "";
+      document.documentElement.style.background = "";
+      document.documentElement.classList.remove("dark");
       document.body.classList.add(theme, `${theme}-theme`);
       document.body.dataset.theme = theme;
       return () => {

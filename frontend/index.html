@@ -65,6 +65,26 @@
     <marimo-user-config data-config="{{ user_config }}" hidden></marimo-user-config>
     <marimo-server-token data-token="{{ server_token }}" hidden></marimo-server-token>
     <!-- /TODO -->
+    <script data-marimo="true">
+      // Detect dark mode BEFORE CSS loads to prevent flash of light theme.
+      // Sets color-scheme and .dark on <html> so the first paint is dark.
+      // ThemeProvider takes over management when React mounts.
+      (function() {
+        var el = document.querySelector('marimo-user-config');
+        var theme = 'system';
+        if (el) {
+          try { theme = JSON.parse(el.dataset.config).display.theme; } catch(e) {}
+        }
+        var dark = theme === 'dark' ||
+          (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (dark) {
+          document.documentElement.style.colorScheme = 'dark';
+          // Match marimo's --background: light-dark(..., hsl(150deg 7.7% 10.2%))
+          document.documentElement.style.background = 'hsl(150deg 7.7% 10.2%)';
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
     <title>{{ title }}</title>
   </head>
   <body>
